@@ -1,0 +1,27 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/ipetdb?createDatabaseIfNoExist=true&useUnicode=true&characterEncoding=UTF-8
+    username: root
+    password: 1234
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+#      use-new-id-generator-mappings: false #hibernate 5? AUTO? ??? TABLE
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+        default_batch_fetch_size: 100
+        dialect: org.hibernate.dialect.MySQL8Dialect
+  profiles:
+    default: local
+  #    active: local
+  data:
+    web:
+      pageable:
+        #        default-page-size:
+        max-page-size: 100
+jwt:
+  secret: VlwEyVBsYt9V7zq57TejMnVUyzblYcfPQye08f7MGVA9XkHa
