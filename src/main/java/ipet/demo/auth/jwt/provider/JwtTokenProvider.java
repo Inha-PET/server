@@ -31,6 +31,7 @@ public class JwtTokenProvider {
         String authorities = authentication.getAuthorities().stream()
                 .map(grantedAuthority -> grantedAuthority.getAuthority())
                 .collect(Collectors.joining(","));
+        //branch test
 
         return null;
     }
