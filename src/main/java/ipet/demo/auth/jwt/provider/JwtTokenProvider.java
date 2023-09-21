@@ -32,6 +32,7 @@ public class JwtTokenProvider {
                 .map(grantedAuthority -> grantedAuthority.getAuthority())
                 .collect(Collectors.joining(","));
         //branch test
+        //branch test2
 
         return null;
     }
