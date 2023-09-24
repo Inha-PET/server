@@ -2,6 +2,7 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.1.3'
 	id 'io.spring.dependency-management' version '1.1.3'
+	id 'org.springdoc.openapi-gradle-plugin' version '1.7.0'
 }
 
 group = 'ipet'
@@ -22,7 +23,6 @@ repositories {
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
@@ -30,8 +30,9 @@ dependencies {
 	//쿼리 파라미터 로그 남기기
 	implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.5.6'
 
-	//swagger (springdoc)
-	implementation 'org.springdoc:springdoc-openapi-ui:1.6.9'
+	//swagger (springdoc), spring boot 3.x부터는 springdoc-openapi-starter-webmvc-ui를 사용해야함
+	// https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-starter-webmvc-ui
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0'
 
 	//jwt
 	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
@@ -39,7 +40,13 @@ dependencies {
 	implementation 'io.jsonwebtoken:jjwt-jackson:0.11.5'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 
+	//Monitoring
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
+	//lombok
 	compileOnly 'org.projectlombok:lombok'
+
+	//devtools
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
 	runtimeOnly 'com.mysql:mysql-connector-j'
