@@ -15,8 +15,10 @@ spring:
         format_sql: true
         default_batch_fetch_size: 100
         dialect: org.hibernate.dialect.MySQL8Dialect
-  profiles:
-    default: local
+
+#  profiles:
+#    default: local
+
   #    active: local
   data:
     web:
