@@ -1,6 +1,7 @@
 package ipet.demo.config;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.info.Contact;
 import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -11,7 +12,11 @@ import org.springframework.context.annotation.Configuration;
         info = @Info(
                 title = "IPET API 명세서",
                 description = "IPET에 사용되는 API 명세서",
-                version = "v1"
+                version = "1.0.0",
+                contact = @Contact(
+                        name = "CJY",
+                        email = "12201816@inha.edu"
+                )
         )
 )
 @Configuration
