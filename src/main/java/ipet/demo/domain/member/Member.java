@@ -1,11 +1,13 @@
 package ipet.demo.domain.member;
 
+import ipet.demo.domain.Address;
 import ipet.demo.domain.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +16,10 @@ import java.util.List;
 @NoArgsConstructor(access = lombok.AccessLevel.PROTECTED)
 @Getter
 public class Member extends BaseEntity implements Serializable {
+
+    @Serial
+    @Transient
+    private static final long serialVersionUID = 1905122041950251206L;
 
     @Id @GeneratedValue
     private Long id;
@@ -26,29 +32,25 @@ public class Member extends BaseEntity implements Serializable {
 
     private String name;
 
-    //필요 없을 지도
-    private String phone;
-
-    //todo: Address 클래스 만들어서 사용하기
-    private String address;
+    @Embedded
+    private Address address;
 
     //todo: @ElementCollection을 사용하는데 문제 없는가 확인
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>();
 
     @Builder
-    private Member(String email, String password, String name, String phone, String address) {
+    private Member(String email, String password, String name, Address address) {
         this.email = email;
         this.password = password;
         this.name = name;
-        this.phone = phone;
         this.address = address;
         roles.add("ROLE_USER");
     }
 
     //==생성 메서드==//
-    public static Member createMember(String email, String password, String name, String phone, String address) {
-        return new Member(email, password, name, phone, address);
+    public static Member createMember(String email, String password, String name, Address address) {
+        return new Member(email, password, name, address);
     }
 }
 
