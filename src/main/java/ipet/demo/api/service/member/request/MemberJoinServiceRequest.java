@@ -22,4 +22,9 @@ public class MemberJoinServiceRequest {
     public Member toEntity() {
         return Member.createMember(email, password, name);
     }
+
+    public void encodePassword(String encodedPassword) {
+        password = encodedPassword;
+    }
+
 }

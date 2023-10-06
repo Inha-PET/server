@@ -3,9 +3,7 @@ package ipet.demo.domain.member;
 import ipet.demo.domain.Address;
 import ipet.demo.domain.BaseEntity;
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -15,6 +13,7 @@ import java.util.List;
 @Entity
 @NoArgsConstructor(access = lombok.AccessLevel.PROTECTED)
 @Getter
+@EqualsAndHashCode(of = "id", callSuper = false) //redis test를 위해 equals와 hashcode를 id로만 구현하고, callSuper는 false
 public class Member extends BaseEntity implements Serializable {
 
     @Serial
@@ -49,8 +48,8 @@ public class Member extends BaseEntity implements Serializable {
     }
 
     //==생성 메서드==//
-    public static Member createMember(String email, String password, String name, Address address) {
-        return new Member(email, password, name, address);
+    public static Member createMember(String email, String password, String name) {
+        return new Member(email, password, name, null);
     }
 }
 
