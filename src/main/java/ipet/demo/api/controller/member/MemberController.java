@@ -34,33 +34,6 @@ public class MemberController {
     private final MemberService memberService;
 
     @Operation(
-            summary = "hello",
-            responses = {
-                    @ApiResponse(
-                            responseCode = "200",
-                            description = "성공",
-                            content = @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = String.class))),
-                    @ApiResponse(responseCode = "400", description = "잘못된 요청"),
-                    @ApiResponse(responseCode = "401", description = "권한 없음"),
-                    @ApiResponse(responseCode = "403", description = "접근 금지"),
-                    @ApiResponse(responseCode = "404", description = "찾을 수 없음"),
-                    @ApiResponse(responseCode = "500", description = "서버 오류")
-            }
-    )
-    @GetMapping("/hello")
-    public String index() {
-
-        log.info("hello 호출은 됐음");
-        return "hhhhhhey";
-    }
-
-    @GetMapping("/hello2")
-    public String index2() {
-        return "hhhhhhey";
-    }
-
-    @Operation(
             summary = "회원 가입",
             description = "회원 가입을 요청한다.",
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "회원 가입 요청 DTO", required = true,

@@ -38,7 +38,7 @@ public class SecurityConfig {
                 .sessionManagement(smc -> smc.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
-                                "/hello", "/v3/**", "/error", "/swagger-ui/**", "/swagger-ui.html"
+                                "/hello/**", "/v3/**", "/error", "/swagger-ui/**", "/swagger-ui.html"
                                 ,"/actuator/**", "/api/v1/members/join", "/api/v1/members/login"
 //                                ,"/**/*.css", "/**/*.js", "/**/*.png", "/**/*.jpg", "/**/*.jpeg", "/**/*.gif"
 //                                ,"/**/*.svg", "/**/*.html", "/**/*.ico", "/**/*.map", "/**/*.woff2", "/**/*.ttf"
