@@ -49,7 +49,4 @@ public class MemberJoinRequest {
                 .build();
     }
 
-    public void encodePassword(String encodedPassword) {
-        password = encodedPassword;
-    }
 }
