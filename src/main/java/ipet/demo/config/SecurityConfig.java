@@ -9,6 +9,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
@@ -36,8 +38,8 @@ public class SecurityConfig {
                 .sessionManagement(smc -> smc.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
-                                "/hello", "/v3/**", "/error", "/swagger-ui/**", "/swagger-ui.html"
-                                ,"/actuator/**"
+                                "/hello/**", "/v3/**", "/error", "/swagger-ui/**", "/swagger-ui.html"
+                                ,"/actuator/**", "/api/v1/members/join", "/api/v1/members/login"
 //                                ,"/**/*.css", "/**/*.js", "/**/*.png", "/**/*.jpg", "/**/*.jpeg", "/**/*.gif"
 //                                ,"/**/*.svg", "/**/*.html", "/**/*.ico", "/**/*.map", "/**/*.woff2", "/**/*.ttf"
 //                                ,"/**/*.woff", "/**/*.eot", "/**/*.json", "/**/*.txt", "/**/*.xml", "/**/*.properties"
@@ -60,5 +62,10 @@ public class SecurityConfig {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 }

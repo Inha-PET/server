@@ -40,7 +40,4 @@ public class MemberLoginRequest {
                 .build();
     }
 
-    public void encodePassword(String encodedPassword) {
-        password = encodedPassword;
-    }
 }
