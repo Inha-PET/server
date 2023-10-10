@@ -15,7 +15,6 @@ import ipet.demo.auth.jwt.provider.JwtTokenProvider;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -110,7 +109,7 @@ public class MemberController {
     }
 
     private void setAuthHeader(HttpServletResponse response, TokenInfo tokenInfo) {
-        response.addHeader(JwtTokenProvider.ACCESS_HEADER, JwtTokenProvider.TOKEN_GRANT_TYPE + tokenInfo.getAccessToken());
+        response.addHeader(JwtTokenProvider.ACCESS_HEADER, JwtTokenProvider.TOKEN_GRANT_TYPE + " " + tokenInfo.getAccessToken());
         response.addHeader(JwtTokenProvider.REFRESH_HEADER, tokenInfo.getRefreshToken());
     }
 
