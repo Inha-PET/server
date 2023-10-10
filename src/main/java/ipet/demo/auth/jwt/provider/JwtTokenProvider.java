@@ -53,6 +53,7 @@ public class JwtTokenProvider {
         String refreshToken = generateRefreshToken(authentication, refreshTokenExpiresIn);
 
         return TokenInfo.builder()
+                .grantType(TOKEN_GRANT_TYPE)
                 .accessToken(accessToken)
                 .accessTokenExpiresIn(accessTokenExpiresIn)
                 .refreshToken(refreshToken)
