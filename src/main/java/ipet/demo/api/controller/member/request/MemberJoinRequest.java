@@ -27,8 +27,9 @@ public class MemberJoinRequest {
     @Pattern(regexp = "^\\S+$", message = "공백을 포함할 수 없습니다.")
     private String password;
 
+    // Front 요청으로 인해 주석처리
+//    @NotBlank
     @Schema(description = "이름", example = "홍길동")
-    @NotBlank
     private String name;
 
 //    @Schema(description = "주소", example = "서울특별시 강남구")
