@@ -14,6 +14,7 @@ import java.util.List;
 @NoArgsConstructor(access = lombok.AccessLevel.PROTECTED)
 @Getter
 @EqualsAndHashCode(of = "id", callSuper = false) //redis test를 위해 equals와 hashcode를 id로만 구현하고, callSuper는 false
+@ToString(of = {"id", "email", "name", "address"})
 public class Member extends BaseEntity implements Serializable {
 
     @Serial
