@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import ipet.demo.domain.board.Board;
 import ipet.demo.domain.board.BoardType;
-import ipet.demo.domain.member.Member;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -55,7 +54,7 @@ public class BoardResponse {
         this.email = email;
     }
 
-    public static BoardResponse fromEntity(Board board, Member member) {
+    public static BoardResponse fromEntity(Board board) {
         return BoardResponse.builder()
                 .id(board.getId())
                 .title(board.getTitle())
@@ -63,8 +62,8 @@ public class BoardResponse {
                 .boardType(board.getBoardType())
                 .incidentDateTime(board.getIncidentDateTime())
                 .location(board.getLocation())
-                .name(member.getName())
-                .email(member.getEmail())
+                .name(board.getMember().getName())
+                .email(board.getMember().getEmail())
                 .build();
     }
 
