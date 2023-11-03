@@ -71,7 +71,7 @@ public class BoardService {
     }
     private void validateWriter(Member member, Board board) {
         if (!board.isWriter(member)) {
-            throw new BusinessLogicException(ExceptionCode.BOARD_NOT_FOUND);
+            throw new BusinessLogicException(ExceptionCode.BOARD_NOT_AUTHORIZED);
         }
     }
 }
