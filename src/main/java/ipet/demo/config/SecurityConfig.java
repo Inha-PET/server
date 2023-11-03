@@ -5,6 +5,7 @@ import ipet.demo.auth.jwt.provider.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -37,16 +38,18 @@ public class SecurityConfig {
 
                 .sessionManagement(smc -> smc.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(
-                                "/hello/**", "/v3/**", "/error", "/swagger-ui/**", "/swagger-ui.html"
-                                ,"/actuator/**", "/api/v1/members/join", "/api/v1/members/login"
+                                .requestMatchers(
+                                        "/hello/**", "/v3/**", "/error", "/swagger-ui/**", "/swagger-ui.html"
+                                        , "/actuator/**", "/api/v1/members/join", "/api/v1/members/login",
+                                        "/api/v1/images/**"
 //                                ,"/**/*.css", "/**/*.js", "/**/*.png", "/**/*.jpg", "/**/*.jpeg", "/**/*.gif"
 //                                ,"/**/*.svg", "/**/*.html", "/**/*.ico", "/**/*.map", "/**/*.woff2", "/**/*.ttf"
 //                                ,"/**/*.woff", "/**/*.eot", "/**/*.json", "/**/*.txt", "/**/*.xml", "/**/*.properties"
-                        ).permitAll()
+                                ).permitAll()
+                                .requestMatchers(HttpMethod.GET, "/api/v1/boards/**").permitAll()
 //                        .requestMatchers("/api/v1/members/join", "/api/v1/members/login").permitAll()
 //                        .requestMatchers("/api/boards/**").hasRole("USER")
-                        .anyRequest().authenticated()
+                                .anyRequest().authenticated()
                 )
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
         return http.build();
