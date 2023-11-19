@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.info.Contact;
 import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -17,7 +18,17 @@ import org.springframework.context.annotation.Configuration;
                         name = "CJY",
                         email = "12201816@inha.edu"
                 )
-        )
+        ),
+        servers = {
+                @io.swagger.v3.oas.annotations.servers.Server(
+                        description = "Goorm Server",
+                        url = "https://ipet-server.run.goorm.site"
+                ),
+                @io.swagger.v3.oas.annotations.servers.Server(
+                        description = "Local Server",
+                        url = "http://localhost:8080"
+                )
+        }
 )
 @Configuration
 public class SwaggerConfig {

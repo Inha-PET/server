@@ -2,10 +2,15 @@ package ipet.demo.api.controller.image;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import ipet.demo.api.ApiResponseDto;
 import ipet.demo.api.service.image.facade.ImageService;
+import ipet.demo.api.service.image.response.ImageResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -44,8 +49,19 @@ public class ImageController {
             }
     )
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public String upload(@RequestParam("category") String category, @RequestPart("file") List<MultipartFile> multipartFiles) {
+    public ApiResponseDto<List<ImageResponse>> upload(@RequestParam("category") String category, @RequestPart("file") List<MultipartFile> multipartFiles) {
         long now = System.currentTimeMillis();
-        return imageService.upload(category, multipartFiles, now);
+        List<ImageResponse> uploadedImages = imageService.upload(category, multipartFiles, now);
+        return ApiResponseDto.ok(uploadedImages);
     }
+
+    @GetMapping("/{imageId}")
+    public ResponseEntity<ByteArrayResource> getImage(@PathVariable Long imageId) {
+        ByteArrayResource resource = new ByteArrayResource(imageService.getImage(imageId));
+        return ResponseEntity
+                .ok()
+                .contentType(MediaType.IMAGE_JPEG)
+                .body(resource);
+    }
+
 }

@@ -41,11 +41,10 @@ public class BoardController {
                                                              "제가 응답 헤더에도 값을 주고 응답에도 토큰 내용을 넣어뒀습니다.", in = ParameterIn.HEADER, example = "Authorization: Bearer abc...")
                                                      @JwtAuth Member member,
                                                      @RequestBody(description = "게시글 요청 형식입니다", content = @Content(mediaType = "application/json", schema = @Schema(implementation = BoardCreateRequest.class)))
-                                                     @org.springframework.web.bind.annotation.RequestBody BoardCreateRequest boardCreateRequest) {
-
-        log.info("member: {}", member);
-        BoardResponse newBoard = boardService.createBoard(boardCreateRequest.toServiceRequest(), member);
-        return ApiResponseDto.ok(newBoard);
+                                                     @org.springframework.web.bind.annotation.RequestBody BoardCreateRequest boardCreateRequest)
+    {
+        BoardResponse newBoardResponse = boardService.createBoard(boardCreateRequest.toServiceRequest(), member);
+        return ApiResponseDto.ok(newBoardResponse);
     }
 
     @Operation(summary = "게시글 목록 조회", description = "게시글 목록을 조회합니다.",
@@ -73,7 +72,8 @@ public class BoardController {
                     @Parameter(name = "id", description = "게시글 id", in = ParameterIn.PATH, example = "1")
             })
     @PostMapping("/{id}")
-    public ApiResponseDto<BoardResponse> updateBoard(@JwtAuth Member member, @PathVariable Long id, @RequestBody BoardUpdateRequest boardUpdateRequest) {
+    public ApiResponseDto<BoardResponse> updateBoard(@JwtAuth Member member, @PathVariable Long id, @org.springframework.web.bind.annotation.RequestBody BoardUpdateRequest boardUpdateRequest) {
+        log.info("boardUpdateRequest: {}", boardUpdateRequest);
         return ApiResponseDto.ok(boardService.updateBoard(member, id, boardUpdateRequest.toServiceRequest()));
     }
 

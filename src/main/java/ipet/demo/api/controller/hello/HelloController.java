@@ -5,11 +5,14 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import ipet.demo.api.service.image.storage.util.LocalFileUtils;
+import ipet.demo.domain.board.Board;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.io.File;
+import java.nio.file.Paths;
 
 @Tag(name = "테스트 콘트롤러", description = "통신 테스트용 API")
 @RequestMapping("/hello")
@@ -35,7 +38,7 @@ public class HelloController {
     )
     @GetMapping("/world")
     public String index() {
-
+        log.info("HelloController의 경로: {}", Paths.get("dd"+ File.separator +"fileName").toAbsolutePath().toString());
         log.info("hello 호출은 됐음");
         return "Hello world!";
     }
@@ -43,5 +46,10 @@ public class HelloController {
     @GetMapping("/")
     public String index2() {
         return "hhhhhhey";
+    }
+
+    @PostMapping("/boardtest")
+    public Board boardTest(@RequestBody Board board) {
+        return board;
     }
 }

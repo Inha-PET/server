@@ -13,6 +13,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Primary
 @Service
@@ -20,21 +22,25 @@ import java.util.List;
 public class LocalStorageService implements ImageStorageService {
 
     @Override
-    public List<String> store(String category, List<MultipartFile> multipartFiles, Long now) {
+    public Map<String, String> store(String category, List<MultipartFile> multipartFiles, Long now) {
         return multipartFiles.stream()
                 .map(multipartFile -> store(category, multipartFile, now))
-                .toList();
+                .flatMap(map -> map.entrySet().stream())
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (v1, v2) -> v2));
     }
 
-    public String store(String category, MultipartFile multipartFile, Long now) {
+    public Map<String, String> store(String category, MultipartFile multipartFile, Long now) {
         validateExists(multipartFile);
 
         // {project}/src/main/resources/static/{category}/{now}_{fileName}
-        Path filePath = LocalFileUtils.buildFilePath(category, multipartFile.getOriginalFilename(), now);
+        String originalFilename = multipartFile.getOriginalFilename();
+        String storeFileName = LocalFileUtils.buildStoreFileName(category, originalFilename, now);
+        Path filePath = LocalFileUtils.buildFilePath(storeFileName);
 
         try (InputStream inputStream = multipartFile.getInputStream()) {
             Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
-            return filePath.toString();
+            assert originalFilename != null;
+            return Map.of(originalFilename, storeFileName);
         } catch (IOException e) {
             //custom으로 변경
             throw new RuntimeException("파일 저장에 실패했습니다.", e);
