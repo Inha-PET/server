@@ -21,8 +21,12 @@ public class LocalFileUtils {
 
     private static final String TIME_SEPARATOR = "_";
 
-    public static Path buildFilePath(String category, String fileName, Long now) {
-        return DIRECTORY_PATH.resolve(category + File.separator + now + TIME_SEPARATOR + fileName);
+    public static String buildStoreFileName(String category, String fileName, Long now) {
+        return category + File.separator + now + TIME_SEPARATOR + fileName;
+    }
+
+    public static Path buildFilePath(String storeFileName) {
+        return DIRECTORY_PATH.resolve(storeFileName);
     }
 
 }

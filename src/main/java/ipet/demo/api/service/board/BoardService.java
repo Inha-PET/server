@@ -6,28 +6,40 @@ import ipet.demo.api.service.board.response.BoardResponse;
 import ipet.demo.domain.board.Board;
 import ipet.demo.domain.board.BoardRepository;
 import ipet.demo.domain.board.BoardStatus;
+import ipet.demo.domain.file.Attachment;
+import ipet.demo.domain.file.AttachmentRepository;
 import ipet.demo.domain.member.Member;
 import ipet.demo.exception.BusinessLogicException;
 import ipet.demo.exception.ExceptionCode;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
+@Slf4j
 public class BoardService {
 
     private final BoardRepository boardRepository;
+    private final AttachmentRepository attachmentRepository;
 
     @Transactional
     public BoardResponse createBoard(BoardCreateServiceRequest serviceRequest, Member member) {
         Board newBoard = serviceRequest.toEntity();
         newBoard.attachMember(member);
+
+        List<Attachment> attachments = serviceRequest.getAttachmentIds().stream()
+                .map(id -> attachmentRepository.findById(id)
+                        .orElseThrow(() -> new BusinessLogicException(ExceptionCode.IMAGE_NOT_FOUND)))
+                .toList();
+        newBoard.addAttachments(attachments);
         boardRepository.save(newBoard);
         return BoardResponse.fromEntity(newBoard);
     }
@@ -47,7 +59,12 @@ public class BoardService {
     public BoardResponse updateBoard(Member member, Long boardId, BoardUpdateServiceRequest serviceRequest) {
         Board board = findBoardById(boardId);
         validateWriter(member, board);
+        log.info("serviceRequest: {}", serviceRequest);
         board.updateBoard(serviceRequest.toEntity());
+        board.updateAttachments(serviceRequest.getAttachmentIds().stream()
+                .map(id -> attachmentRepository.findById(id)
+                        .orElseThrow(() -> new BusinessLogicException(ExceptionCode.IMAGE_NOT_FOUND)))
+                .toList());
         return BoardResponse.fromEntity(board);
     }
 
