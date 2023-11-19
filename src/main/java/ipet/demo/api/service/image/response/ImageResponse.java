@@ -16,21 +16,22 @@ import java.time.LocalDateTime;
 public class ImageResponse {
     @Schema(description = "이미지 id", example = "1")
     private Long id;
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm")
-    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
-    @Schema(description = "저장 시각", example = "2023-11-13T00:00")
-    private LocalDateTime createdAt;
+
+    //프론트 요청으로 인해 주석처리
+//    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+//    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+//    @Schema(description = "저장 시각", example = "2023-11-13T00:00")
+//    private LocalDateTime createdAt;
 
     @Builder
-    private ImageResponse(Long id, LocalDateTime createdAt) {
+    private ImageResponse(Long id) {
         this.id = id;
-        this.createdAt = createdAt;
+
     }
 
     public static ImageResponse fromEntity(Attachment attachment) {
         return ImageResponse.builder()
                 .id(attachment.getId())
-                .createdAt(attachment.getCreatedDateTime())
                 .build();
     }
 }
