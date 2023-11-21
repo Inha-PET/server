@@ -32,7 +32,7 @@ public class JwtTokenProvider {
     public static final String TOKEN_GRANT_TYPE = "Bearer";
     public static final String ACCESS_HEADER = "Authorization";
     public static final String REFRESH_HEADER = "Refresh";
-    private static final int ACCESS_EXP = 1000 * 60 * 60 * 2;
+    private static final int ACCESS_EXP = 1000 * 60 * 60 * 24;
     private static final int REFRESH_EXP = 1000 * 60 * 60 * 24 * 5;
 
     public JwtTokenProvider(@Value("${jwt.secret}") String secretKey) {
