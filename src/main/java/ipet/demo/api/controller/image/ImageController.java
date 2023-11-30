@@ -64,4 +64,13 @@ public class ImageController {
                 .body(resource);
     }
 
+    @GetMapping("/breeds")
+    public ResponseEntity<ByteArrayResource> getBreed(@RequestParam("q") String breedName) {
+        ByteArrayResource resource = new ByteArrayResource(imageService.getImage(breedName));
+        return ResponseEntity
+                .ok()
+                .contentType(MediaType.IMAGE_JPEG)
+                .body(resource);
+    }
+
 }

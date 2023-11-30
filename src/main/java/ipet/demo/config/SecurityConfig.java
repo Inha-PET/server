@@ -46,7 +46,7 @@ public class SecurityConfig {
 //                                ,"/**/*.svg", "/**/*.html", "/**/*.ico", "/**/*.map", "/**/*.woff2", "/**/*.ttf"
 //                                ,"/**/*.woff", "/**/*.eot", "/**/*.json", "/**/*.txt", "/**/*.xml", "/**/*.properties"
                                 ).permitAll()
-                                .requestMatchers(HttpMethod.GET, "/api/v1/boards").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/api/v1/boards/**").permitAll()
 //                        .requestMatchers("/api/v1/members/join", "/api/v1/members/login").permitAll()
 //                        .requestMatchers("/api/boards/**").hasRole("USER")
                                 .anyRequest().authenticated()
