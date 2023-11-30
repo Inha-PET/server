@@ -20,6 +20,7 @@ public class LocalFileUtils {
 
 
     private static final String TIME_SEPARATOR = "_";
+    private static final String BREED_FOLDER = "breed";
 
     public static String buildStoreFileName(String category, String fileName, Long now) {
         return category + File.separator + now + TIME_SEPARATOR + fileName;
@@ -27,6 +28,10 @@ public class LocalFileUtils {
 
     public static Path buildFilePath(String storeFileName) {
         return DIRECTORY_PATH.resolve(storeFileName);
+    }
+
+    public static Path buildBreedFilePath(String storeFileName) {
+        return DIRECTORY_PATH.resolve(BREED_FOLDER + File.separator + storeFileName + ".jpg");
     }
 
 }

@@ -1,5 +1,8 @@
 package ipet.demo.api.service.image.facade;
 
+import ipet.demo.api.service.image.aiservice.BreedResultDto;
+import ipet.demo.api.service.image.aiservice.BreedType;
+import ipet.demo.api.service.image.aiservice.DogBreedService;
 import ipet.demo.api.service.image.metadata.ImageMetadataService;
 import ipet.demo.api.service.image.response.ImageResponse;
 import ipet.demo.api.service.image.storage.ImageStorageService;
@@ -19,6 +22,7 @@ import java.io.InputStream;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -27,6 +31,7 @@ public class ImageService {
 
     private final ImageStorageService imageStorageService;
     private final ImageMetadataService imageMetadataService;
+    private final DogBreedService dogBreedService;
 
     public String test() {
         return null;
@@ -40,9 +45,23 @@ public class ImageService {
         //DB에 저장
         List<Attachment> savedAttachments = imageMetadataService.save(category, originStore);
 
-        return savedAttachments.stream()
+        List<ImageResponse> imageResponses = savedAttachments.stream()
                 .map(ImageResponse::fromEntity)
                 .toList();
+
+        //AI 분석
+        // 각 multipartFiles가 dogBreedService.requestBreed()의 인자로 들어가야 한다.
+        // 그 결과값은 imageResponses에 setAi()로 저장되어야 한다.
+
+        for (int i = 0; i < multipartFiles.size(); i++) {
+            imageResponses.get(i).setAi(dogBreedService.requestBreed(multipartFiles.get(i)));
+        }
+
+        log.info("==========================AI 분석 시작======================");
+        log.info("{}", dogBreedService.requestBreed(multipartFiles.get(0)));
+        log.info("==========================AI 분석 끝========================");
+
+        return imageResponses;
     }
 
     public byte[] getImage(Long imageId) {
@@ -54,6 +73,15 @@ public class ImageService {
         } catch (IOException e) {
             throw new BusinessLogicException(ExceptionCode.FILE_IO_EXCEPTION, e);
         }
+    }
 
+    public byte[] getImage(String breedkoreanName) {
+        Path filePath = LocalFileUtils.buildBreedFilePath(Objects.requireNonNull(BreedType.getBreedTypeByKoreanName(breedkoreanName)).getEnglishName());
+
+        try (InputStream fileInputStream = new FileInputStream(filePath.toFile())){
+            return fileInputStream.readAllBytes();
+        } catch (IOException e) {
+            throw new BusinessLogicException(ExceptionCode.FILE_IO_EXCEPTION, e);
+        }
     }
 }

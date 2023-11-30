@@ -2,16 +2,19 @@ package ipet.demo.api.service.image.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
+import ipet.demo.api.service.image.aiservice.BreedResultDto;
 import ipet.demo.domain.file.Attachment;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 
 @Schema(description = "이미지 응답 DTO")
 @Getter
+@Setter
 @NoArgsConstructor(access = lombok.AccessLevel.PROTECTED)
 public class ImageResponse {
     @Schema(description = "이미지 id", example = "1")
@@ -23,10 +26,12 @@ public class ImageResponse {
 //    @Schema(description = "저장 시각", example = "2023-11-13T00:00")
 //    private LocalDateTime createdAt;
 
-    @Builder
-    private ImageResponse(Long id) {
-        this.id = id;
+    private BreedResultDto ai;
 
+    @Builder
+    private ImageResponse(Long id, BreedResultDto ai) {
+        this.id = id;
+        this.ai = ai;
     }
 
     public static ImageResponse fromEntity(Attachment attachment) {
